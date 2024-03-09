@@ -1,0 +1,42 @@
+- Các lệnh tạo file:
+php artisan make:migration ten_migration
+php artisan make:mail TenMail
+php artisan make:seeder TenSeeder
+php artisan make:middleware TenMiddleware
+php artisan make:model TenModel -m (Tạo luôn cả migrations)
+php artisan make:controller TenController -r (Tạo luôn cả resource CRUD)
+
+- Các lệnh chạy migrations:
+php artisan migrate
+php artisan migrate:refresh
+
+- Lệnh hiển thị list các route khi sử dụng resource:
+php artisan route:list
+
+- Các lệnh chạy seeder:
+php artisan db:seed
+php artisan db:seed --class=TenSeeder
+php artisan migrate:refresh --seed
+
+*) Note dự án:
+- Cán bộ nếu ko tiếp nhận thì gửi email đến cho thí sinh và vẫn giữ thí sinh đó trong DB:  
+    +) TH sai, thiếu thông tin, sửa nguyện vọng,...
+
+*) Note code:
+- Kiểm tra method đang là gì: $request->isMethod('post)
+
+- Hàm tạo hồ sơ sửa: if else nếu ko có thí sinh nào thì gán STT = 0 hoặc 1 nếu có rồi thì gán tăng 
+lên
+- Bảng thông tin cá nhân thí sinh và hồ sơ: Gộp lại 1 bảng
+- Bảng DS trúng tuyển phân loại theo ngành gộp lại thành một bảng rồi phân loại ở trong đó luôn
+- Gửi email tiếp nhận hồ sơ về cho thí sinh thì gửi luôn mã QR -> TS quét sẽ ra một trang xem và 
+sửa được luôn
+- Xét trúng tuyển = cách lấy đủ chỉ tiêu 
+- Ko cấp tài khoản đăng nhập cho thí sinh, vì quản lý sẽ rất mệt, khi nào thí sinh là sinh viên của 
+trường thì mới cấp tài khoản cho
+- Kỳ thi tốt nghiệp THPT và thi THPTQG (Đại học) là một    
+- Thí sinh sẽ chỉ cần đăng nhập = CCCD và mật khẩu là ngày sinh 
+- Tạo thêm một bảng tk thí sinh gồm: CCCD và mật khẩu để tra cứu hồ sơ
+
+
+

@@ -1,0 +1,102 @@
+﻿use QLTV   
+
+--CAU 1: Hiển thị tt các cuốn sách có trong thư viện
+create proc sp_c1
+as
+select * from sach
+
+exec sp_c1
+
+
+--CAU 2: Hiển thị tt các phiếu mượn với ngày trả bất kỳ
+create proc sp_c2 (
+	@ngaytra date
+	)
+as
+select phieumuon.*
+from phieumuon, ctphieumuon
+where phieumuon.maphieumuon = ctphieumuon.maphieumuon and ngaytra = @ngaytra
+
+exec sp_c2 '9/17/2015'
+
+
+--CAU 3: Đếm tổng slg sách(TongSach) theo nhà xb bất kỳ(Theo 2 cách: TongSach là biến 
+--và TongSach là tham số ra)
+create proc sp_c3 (
+	@nhaxb nvarchar(30),
+	@TongSach int output
+	)
+as
+select @TongSach = count(masach)
+from sach
+where nxb = @nhaxb  
+
+declare @TongSach int 
+exec sp_c3 'Giao Duc', @TongSach output
+print 'Tong so sach cua nxb la: ' + cast(@TongSach as char(10))
+
+
+--CAU 4: Hiển thị tt các độc giả đã mượn sách với ngày mượn trong khoảng tgian
+--là tso truyển vào.
+create proc sp_c4 (
+	@ngaybdau date,
+	@ngaykthuc date
+	)
+as
+select docgia.*
+from docgia, phieumuon
+where docgia.madocgia = phieumuon.madocgia and ngaymuon between @ngaybdau and @ngaykthuc
+
+exec sp_c4 '05/25/2015', '10/15/2015'
+
+
+--CAU 5: Ktra xem 1 nvien bất kỳ(MaNV là tham số vào) lập đc bnhieu phiếu trong khoảng
+--tgian là tso truyền vào.
+create proc sp_c5 (
+	@MaNV char(10),
+	@ngaybdau date,
+	@ngaykthuc date,
+	@sophieu int output
+	)
+as
+select @sophieu = count(maphieumuon)
+from phieumuon
+where manv = @MaNV and ngaymuon between @ngaybdau and @ngaykthuc
+group by manv
+
+declare @sophieu int 
+exec sp_c5 'nv01', '01/25/2015', '10/15/2015', @sophieu output
+print 'So phieu muon lap duoc la: ' + cast(@sophieu as char(10))
+
+
+--CAU 6: Tbao những cuốn sách cần nhập về(MaSach, Tensach) khi slg tồn trong kho < 10 cuốn 
+create proc sp_c6 
+as
+select masach, tensach, sum(soluong) as 'So luong ton kho'
+from sach
+group by masach, tensach
+having sum(soluong) < 10
+
+exec sp_c6 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
