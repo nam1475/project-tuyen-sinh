@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\DSChoTiepNhan; 
 use Illuminate\Support\Facades\Session;
 
-class TraCuuController extends Controller
+class HoSoTSController extends Controller
 {
     public function loginStudentProfile(){
-        return view('Tra_cuu.login_student_profile');
+        return view('HoSoTS.login_student_profile');
     }
 
     public function studentProfile(Request $request){
         $CCCD = $request->input('CCCD');
         $student = DSChoTiepNhan::find($CCCD);
-        return view('Tra_cuu.student_profile', compact('student'));
+        return view('HoSoTS.student_profile', compact('student'));
     }
 
     public function editStudentProfile(string $MaHoSo){
@@ -30,6 +30,6 @@ class TraCuuController extends Controller
         $search = request()->search_profile;
         $student = DSChoTiepNhan::where('MaHoSo', '=', $search)->get();
         Session::put('thongBaoTimKiem', 'Tìm kiếm thành công!');
-        return view('Tra_cuu.search_student_profile', compact('student', 'search'));
+        return view('HoSoTS.search_student_profile', compact('student', 'search'));
     }
 }

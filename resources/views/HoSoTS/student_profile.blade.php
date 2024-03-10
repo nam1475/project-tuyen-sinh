@@ -89,7 +89,7 @@
                                         <td class="align-middle"><a href="{{  $student->bang_TN  }}" target="_blank">{{  $student->bang_TN  }}</a></td>  
                                         <td class="align-middle"><a href="{{  $student->CN_uu_tien  }}" target="_blank">{{  $student->CN_uu_tien  }}</a></td>   --}}
                                         <td class="align-middle">
-                                            <a href="{{ route('Tra_cuu.edit_profile_student', $student->CCCD) }}" type="button" class="btn btn-secondary">Sửa</a>
+                                            <a href="{{ route('editStudentProfile', $student->CCCD) }}" type="button" class="btn btn-secondary">Sửa</a>
                                         </td>
                                     </tr>
                                 </tbody>

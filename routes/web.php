@@ -6,7 +6,7 @@ use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\ThiSinhController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FormDkyController;
-use App\Http\Controllers\TraCuuController;
+use App\Http\Controllers\HoSoTSController;
 
 /* Quản lý tuyển sinh */
     Route::controller(FormDkyController::class)->prefix('home')->group(function () {
@@ -14,7 +14,7 @@ use App\Http\Controllers\TraCuuController;
         Route::post('/luu-thi-sinh', 'store')->name('DangKy.store');
     });
 
-    Route::controller(TraCuuController::class)->prefix('ho-so-ts')->group(function () {
+    Route::controller(HoSoTSController::class)->prefix('ho-so-ts')->group(function () {
         Route::get('/search-student-profile', 'searchStudentProfile')->name('searchStudentProfile');
         Route::get('/login-student-profile', 'loginStudentProfile')->name('loginStudentProfile');
         Route::post('/student-profile', 'studentProfile')->name('studentProfile');
