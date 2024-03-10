@@ -2,17 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\ThiSinhController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FormDkyController;
 use App\Http\Controllers\HoSoTSController;
 
 /* Quản lý tuyển sinh */
-    Route::controller(FormDkyController::class)->prefix('home')->group(function () {
-        Route::get('/dang-ky-xet-tuyen', 'create')->name('DangKy.create');
-        Route::post('/luu-thi-sinh', 'store')->name('DangKy.store');
-    });
+    // Route::controller(FormDkyController::class)->prefix('home')->group(function () {
+    //     Route::get('/dang-ky-xet-tuyen', 'create')->name('DangKy.create');
+    //     Route::post('/luu-thi-sinh', 'store')->name('DangKy.store');
+    // });
 
     Route::controller(HoSoTSController::class)->prefix('ho-so-ts')->group(function () {
         Route::get('/search-student-profile', 'searchStudentProfile')->name('searchStudentProfile');
@@ -22,7 +21,7 @@ use App\Http\Controllers\HoSoTSController;
         Route::put('/update-student-profile/{MaHoSo}', 'updateStudentProfile')->name('updateStudentProfile');
     });
 
-    Route::controller(AuthController::class)->group(function () {
+    Route::controller(AdminController::class)->group(function () {
         Route::get('/register', 'register')->name('register');
         Route::post('/register', 'registerSave')->name('register.save');
         
@@ -62,7 +61,7 @@ use App\Http\Controllers\HoSoTSController;
             // Route::get('/send-sms', 'sendSms')->name('student.sendSms');
         });
             
-        Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     });
 
 

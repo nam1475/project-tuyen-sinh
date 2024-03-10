@@ -184,6 +184,43 @@ class ThiSinhController extends Controller
         }
     }
 
+    public function totalGPA($request){
+        $totalGPA = $request->Toán + $request->Văn + $request->Anh + $request->Lý 
+                    + $request->Hóa + $request->Sinh;
+        return $totalGPA;
+    }
+
+    /* Tạo mã hồ sơ: aabbcccc trong đó aa là 2 số cuối năm tuyển sinh, bb là mã ngành, cccc là số thứ tự hồ sơ */
+    public function profileId($request, $thiSinh = null){
+        $student = DSChoTiepNhan::all();
+        $year = date('y'); /* 2 số cuối năm hiện tại */
+        $majorId = $request->input('NV1') . $request->input('NV2');
+        $serial = 0;
+
+        /* Nếu ko có thí sinh nào: */
+        if($student->isEmpty()){
+            $serial = str_pad("1", 4, '0', STR_PAD_LEFT);
+        }
+        else{
+            foreach($student as $st){
+                /* Kiểm tra xem nguyện vọng có được thí sinh sửa đổi ko, nếu sửa rồi thì cập nhật 
+                lại mã hồ sơ */
+                if($thiSinh != null){
+                    if($thiSinh->NV1 != $request->input('NV1') || $thiSinh->NV2 != $request->input('NV1')){
+                        $serial = str_pad($thiSinh->STT, 4, '0', STR_PAD_LEFT);
+                        $profileId = $year . $majorId .  $serial;
+                        return $profileId;
+                    }
+                }
+                else{
+                    ++$st->STT;
+                    $serial = str_pad($st->STT, 4, '0', STR_PAD_LEFT); /* Nếu $serialList ko đủ 4 số thì chèn thêm số 0 vào bên trái */
+                }
+            }
+        }
+        $profileId = $year . $majorId . $serial;
+        return $profileId;
+    }
 
     /* Thêm SV */
     public function create()
@@ -239,43 +276,6 @@ class ThiSinhController extends Controller
         return redirect()->route('student.DSChoTiepNhan')->with('thongbao', 'Thêm sinh viên thành công!');
     }
 
-    public function totalGPA($request){
-        $totalGPA = $request->Toán + $request->Văn + $request->Anh + $request->Lý 
-                    + $request->Hóa + $request->Sinh;
-        return $totalGPA;
-    }
-
-    /* Tạo mã hồ sơ: aabbcccc trong đó aa là 2 số cuối năm tuyển sinh, bb là mã ngành, cccc là số thứ tự hồ sơ */
-    public function profileId($request, $thiSinh = null){
-        $student = DSChoTiepNhan::all();
-        $year = date('y'); /* 2 số cuối năm hiện tại */
-        $majorId = $request->input('NV1') . $request->input('NV2');
-        $serial = 0;
-
-        /* Nếu ko có thí sinh nào: */
-        if($student->isEmpty()){
-            $serial = str_pad("1", 4, '0', STR_PAD_LEFT);
-        }
-        else{
-            foreach($student as $st){
-                /* Kiểm tra xem nguyện vọng có được thí sinh sửa đổi ko, nếu sửa rồi thì cập nhật 
-                lại mã hồ sơ */
-                if($thiSinh != null){
-                    if($thiSinh->NV1 != $request->input('NV1') || $thiSinh->NV2 != $request->input('NV1')){
-                        $serial = str_pad($thiSinh->STT, 4, '0', STR_PAD_LEFT);
-                        $profileId = $year . $majorId .  $serial;
-                        return $profileId;
-                    }
-                }
-                else{
-                    ++$st->STT;
-                    $serial = str_pad($st->STT, 4, '0', STR_PAD_LEFT); /* Nếu $serialList ko đủ 4 số thì chèn thêm số 0 vào bên trái */
-                }
-            }
-        }
-        $profileId = $year . $majorId . $serial;
-        return $profileId;
-    }
     
     // public function uploadFile($file, $prefix, $uploadPath)
     // { 
@@ -366,7 +366,6 @@ class ThiSinhController extends Controller
             'Hóa' => $student->Hóa,
             'Sinh' => $student->Sinh,
             'TongDiem' => $student->TongDiem,
-
         ]); 
         
         return redirect()->route('student.DSXetTuyen')->with('thongBaoTiepNhan', 'Gửi email tiếp nhận thành công!');

@@ -13,7 +13,7 @@ use App\Models\NganhHoc;
 use App\Models\DSChoTiepNhan; 
 use Illuminate\Support\Facades\Session;
 
-class AuthController extends Controller
+class AdminController extends Controller
 {   
 
     public function register()

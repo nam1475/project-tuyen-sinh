@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DSChoTiepNhan extends Model
 {
+    /* - Model là nơi ánh xạ các bản ghi trong CSDL
+    - Controller sẽ làm việc qua lại với Model */
     use HasFactory;
     protected $table = 'ds_cho_tiep_nhan';
     protected $primaryKey = 'MaHoSo';
