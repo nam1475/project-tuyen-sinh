@@ -170,6 +170,7 @@
         </tbody>
     </table>
     <script>
+        /* Xử lý sự kiện Ko Trúng Tuyển */
         const modal = document.getElementById('modalSendEmailDenied');
             if (modal) {
                 /* show.bs.modal: Được kích hoạt để hiển thị 1 cửa sổ nhỏ trên màn hình khi click vào button */
@@ -188,6 +189,7 @@
                 });
             }
 
+        /* Xử lý sự kiện Trúng Tuyển */
         const modal2 = document.getElementById('modalSendEmailAccepted');
         if(modal2){
             modal2.addEventListener('show.bs.modal', event => {

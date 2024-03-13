@@ -32,7 +32,7 @@
             {{ Session::get('thongbao') }}
         </div>
     @endif
-    <table class="table table-hover table-responsive"  id="hiddenTable">
+    <table class="table table-hover"  id="hiddenTable">
         <thead class="table-primary">
             <tr>
                 <th class="align-middle text-center"><a href="?sort-by=STT&sort-type={{ $sortType }}" class="text-decoration-none">STT</a></th>
@@ -145,15 +145,6 @@
         </tbody>
     </table>
     <script>
-        // function handleStatusAccepted(){
-        //     var statusElement = document.getElementById('status');
-        //     statusElement.innerHTML = '<div class="align-middle text-center"><i class="bx bxs-message-square-check" style="color:green; font-size:40px;"></i></div>';
-        // }
-        // function handleStatusDenied(){
-        //     var statusElement = document.getElementById('status');
-        //     statusElement.innerHTML = '<div class="align-middle text-center"><i class="bx bxs-message-square-x" style="color:red; font-size:40px;"></i></div>';
-        // }
-        
         /* Hiện cửa số nhỏ để nhập lý do ko tiếp nhận và gửi email cho thí sinh đó: */
             const modal = document.getElementById('modalSendEmail');
             if (modal) {
@@ -175,35 +166,6 @@
                     idInput.value = studentId;
                 });
             }
-
-            // var statusElement = document.getElementById('status_id');
-            // var statusId = statusElement.getAttribute('data-bs-status');
-            // if (statusId == 1) {
-            //     statusElement.innerHTML = '<div class="align-middle text-center"><i class="bx bxs-message-square-check" style="color:green; font-size:40px;"></i></div>';
-            // }
-            // else if (statusId == 0) {
-            //     statusElement.innerHTML = '<div class="align-middle text-center"><i class="bx bxs-message-square-x" style="color:red; font-size:40px;"></i></div>';
-            // }
-
-
-        /* Hiện sv khi tìm kiếm còn ko thì ẩn đi: */
-        // var buttonSearch = document.getElementById('searchStudent');
-        // var tableElement = document.getElementById('hiddenTable');
-        // var searchInput = document.getElementById('searchInput');
-        // buttonSearch.onclick = function(e){
-        //     var queryString = window.location.search;
-
-        //     // Phân tích query string để lấy ra các tham số
-        //     var urlParams = new URLSearchParams(queryString);
-
-        //     if(urlParams.get('name')){
-        //         console.log(searchInput.value);
-        //         tableElement.classList.remove('d-none');
-        //     }
-        //     else{
-        //         tableElement.classList.add('d-none');
-        //     }
-        // }
 
     </script>
     

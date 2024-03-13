@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('Hóa')->nullable();
             $table->float('Sinh')->nullable();
             $table->float('TongDiem')->nullable();
+            $table->timestamps();   
         });
     }
 

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ThiSinhController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\FormDkyController;
 use App\Http\Controllers\HoSoTSController;
 
@@ -21,7 +21,7 @@ use App\Http\Controllers\HoSoTSController;
         Route::put('/update-student-profile/{MaHoSo}', 'updateStudentProfile')->name('updateStudentProfile');
     });
 
-    Route::controller(AdminController::class)->group(function () {
+    Route::controller(AuthAdminController::class)->group(function () {
         Route::get('/register', 'register')->name('register');
         Route::post('/register', 'registerSave')->name('register.save');
         
@@ -40,7 +40,7 @@ use App\Http\Controllers\HoSoTSController;
     mới có thể truy cập vào các route trong nhóm này. */
     Route::middleware('auth')->group(function () {
         /* prefix(): Tất cả các route trong group mặc định sẽ có tiền tố là student/ */
-        Route::controller(ThiSinhController::class)->prefix('ThiSinh')->group(function () {
+        Route::controller(ThiSinhController::class)->prefix('thi-sinh')->group(function () {
             Route::get('/trung-tuyen', 'DSTrungTuyen')->name('student.DSTrungTuyen');
             Route::get('/cho-tiep-nhan', 'DSChoTiepNhan')->name('student.DSChoTiepNhan');
             Route::get('/ds-xet-tuyen', 'DSXetTuyen')->name('student.DSXetTuyen');
@@ -61,7 +61,7 @@ use App\Http\Controllers\HoSoTSController;
             // Route::get('/send-sms', 'sendSms')->name('student.sendSms');
         });
             
-        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::get('/profile', [AuthAdminController::class, 'profile'])->name('profile');
     });
 
 

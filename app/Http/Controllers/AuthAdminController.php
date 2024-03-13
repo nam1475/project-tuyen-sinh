@@ -13,12 +13,12 @@ use App\Models\NganhHoc;
 use App\Models\DSChoTiepNhan; 
 use Illuminate\Support\Facades\Session;
 
-class AdminController extends Controller
+class AuthAdminController extends Controller
 {   
 
     public function register()
     {
-        return view('auth.register');
+        return view('auth_admin.register');
     }
   
     public function registerSave(Request $request)
@@ -41,7 +41,7 @@ class AdminController extends Controller
   
     public function login()
     {
-        return view('auth.login');
+        return view('auth_admin.login');
     }
   
     public function loginAction(Request $request, LoginRequest $loginRequest)
@@ -89,15 +89,16 @@ class AdminController extends Controller
         - Điều này làm cho tất cả các dữ liệu trong phiên hiện tại của người dùng trở thành 
         không hợp lệ. */
         $request->session()->invalidate();
+        
         return redirect()->route('login');
     }
 
     public function forgotPassword(){
-        return view('auth.forgotPassword');
+        return view('auth_admin.forgotPassword');
     }
  
     public function profile()
     {
-        return view('admin.profile');
+        return view('admin_profile.profile');
     }
 }

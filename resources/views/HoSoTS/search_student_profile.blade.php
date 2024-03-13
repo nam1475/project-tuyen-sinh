@@ -66,6 +66,8 @@
                                             <th class="align-middle text-center">Trình độ văn hóa</th>
                                             <th class="align-middle text-center">SĐT</th>
                                             <th class="align-middle text-center">Địa chỉ</th>
+                                            <th class="align-middle text-center">NV1</th>
+                                            <th class="align-middle text-center">NV2</th>
                                             {{-- <th class="align-middle text-center">HB bìa</th>
                                             <th class="align-middle text-center">HB điểm</th>
                                             <th class="align-middle text-center">Bằng TN</th>
@@ -89,6 +91,8 @@
                                                 <td class="align-middle">{{ $st->TrinhDoVanHoa }}</td>  
                                                 <td class="align-middle">{{ $st->SDT }}</td>  
                                                 <td class="align-middle">{{ $st->DiaChi }}</td>
+                                                <td class="align-middle">{{ $st->NV1 }}</td>
+                                                <td class="align-middle">{{ $st->NV2 }}</td>
                                                 {{-- <td class="align-middle"><a href="{{ $st->HB_bia }}" target="_blank">{{ $st->HB_bia }}</a></td>  
                                                 <td class="align-middle"><a href="{{  $st->HB_diem  }}" target="_blank">{{  $st->HB_diem  }}</a></td>  
                                                 <td class="align-middle"><a href="{{  $st->bang_TN  }}" target="_blank">{{  $st->bang_TN  }}</a></td>  

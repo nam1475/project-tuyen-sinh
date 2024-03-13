@@ -25,33 +25,34 @@ use function Laravel\Prompts\search;
 
 class ThiSinhController extends Controller
 {   
-    public function XacNhanHS(){
-        $XacNhanHS = XacNhanHS::paginate(5);
-        return view('XacNhan.XacNhanHS', compact('XacNhanHS'))->with('i', (request()->input('page', 1) - 1) * 5);
-    }
-
-    public function XacNhanXT(){
-        $XacNhanXT = XacNhanXT::paginate(5);
-        return view('XacNhan.XacNhanXT', compact('XacNhanXT'))->with('i', (request()->input('page', 1) - 1) * 5);
-    }
-
-    public function DSTrungTuyen(Request $request)
-    {
-        $DSTrungTuyen = DSTrungTuyen::paginate(5); // Trả về một đối tượng Paginator
-        $tt = new DSTrungTuyen();
-        $tableName = $tt->getTable();
+    public function XacNhanHS(Request $request){
+        // $XacNhanHS = XacNhanHS::paginate(5);
+        // $hs = new XacNhanHS();
+        // $tableName = $hs->getTable();
         
-        /* Tìm kiếm thí sinh */
-        if($search = request()->search){
-            $DSTrungTuyen = $this->searchStudent($tableName, $search);
-        }
+        // /* Tìm kiếm thí sinh */
+        // if($search = request()->search){
+        //     $XacNhanHS = $this->searchStudent($tableName, $search);
+        // }
         
-        /* Sắp xếp thí sinh */
+        // /* Sắp xếp thí sinh */
+        // $sortType = request()->input('sort-type');
+        // $columnName = request()->input('sort-by');
+        // if(!empty($sortType) && !empty($columnName)){
+        //     $XacNhanHS = $this->sortStudent($tableName, $sortType, $columnName);
+        // }
+
+        // if($sortType == 'asc'){
+        //     $sortType = 'desc';
+        // }
+        // else{
+        //     $sortType = 'asc';
+        // }
+
         $sortType = request()->input('sort-type');
         $columnName = request()->input('sort-by');
-        if(!empty($sortType) && !empty($columnName)){
-            $DSTrungTuyen = $this->sortStudent($tableName, $sortType, $columnName);
-        }
+        $xnHoSo = new XacNhanHS();
+        $XacNhanHS = $xnHoSo->dsXacNhanHS($sortType, $columnName, $request);
 
         if($sortType == 'asc'){
             $sortType = 'desc';
@@ -60,12 +61,38 @@ class ThiSinhController extends Controller
             $sortType = 'asc';
         }
 
-        /* Lọc DS theo ngành */
-        $nganh = $request->input('filter-by');
-        if(!empty($nganh)){
-            $DSTrungTuyen = DSTrungTuyen::where('MaNganh', '=', $nganh)->paginate(5);
-            // return $DSTrungTuyen;
+        return view('XacNhan.XacNhanHS', compact('XacNhanHS', 'sortType'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function XacNhanXT(Request $request){
+        $sortType = request()->input('sort-type');
+        $columnName = request()->input('sort-by');
+        $xnXetTuyen = new XacNhanXT();
+        $XacNhanXT = $xnXetTuyen->dsXacNhanXT($sortType, $columnName, $request);
+
+        if($sortType == 'asc'){
+            $sortType = 'desc';
         }
+        else{
+            $sortType = 'asc';
+        }
+        return view('XacNhan.XacNhanXT', compact('XacNhanXT', 'sortType'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function DSTrungTuyen(Request $request)
+    {
+        $sortType = request()->input('sort-type');
+        $columnName = request()->input('sort-by');
+        $dsTrungTuyen = new DSTrungTuyen();
+        $DSTrungTuyen = $dsTrungTuyen->dsTrungTuyen($sortType, $columnName, $request);
+        
+        if($sortType == 'asc'){
+            $sortType = 'desc';
+        }
+        else{
+            $sortType = 'asc';
+        }
+
         $DSNganhHoc = NganhHoc::all();
 
         return view('ThiSinh.DSTrungTuyen', compact('DSTrungTuyen', 'sortType', 'DSNganhHoc'))->with('i', (request()->input('page', 1) - 1) * 5);
@@ -73,21 +100,10 @@ class ThiSinhController extends Controller
 
     public function DSChoTiepNhan(Request $request)
     {
-        $student = DSChoTiepNhan::paginate(5);
-        $st = new DSChoTiepNhan();
-        $tableName = $st->getTable();
-
-        /* Tìm kiếm thí sinh */
-        if($search = request()->search){
-            $student = $this->searchStudent($tableName, $search);
-        }
-
-        /* Sắp xếp thí sinh */
         $sortType = request()->input('sort-type');
         $columnName = request()->input('sort-by');
-        if(!empty($sortType) && !empty($columnName)){
-            $student = $this->sortStudent($tableName, $sortType, $columnName);
-        }
+        $dsChoTiepNhan = new DSChoTiepNhan();
+        $student = $dsChoTiepNhan->dsChoTiepNhan($sortType, $columnName, $request);
 
         if($sortType == 'asc'){
             $sortType = 'desc';
@@ -96,26 +112,15 @@ class ThiSinhController extends Controller
             $sortType = 'asc';
         }
 
-
         return view('ThiSinh.DSChoTiepNhan', compact('student', 'sortType'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
     
-    public function DSXetTuyen()
+    public function DSXetTuyen(Request $request)
     {
-        $DSXetTuyen = DSXetTuyen::paginate(5);
-        $xt = new DSXetTuyen();
-        $tableName = $xt->getTable();
-
-        if($search = request()->search){
-            $DSXetTuyen = $this->searchStudent($tableName, $search);
-        }
-
-        /* Sắp xếp thí sinh */
         $sortType = request()->input('sort-type');
         $columnName = request()->input('sort-by');
-        if(!empty($sortType) && !empty($columnName)){
-            $DSXetTuyen = $this->sortStudent($tableName, $sortType, $columnName);
-        }
+        $dsXetTuyen = new DSXetTuyen();
+        $DSXetTuyen = $dsXetTuyen->dsXetTuyen($sortType, $columnName, $request);
 
         if($sortType == 'asc'){
             $sortType = 'desc';
@@ -126,63 +131,72 @@ class ThiSinhController extends Controller
 
         return view('ThiSinh.DSXetTuyen', compact('DSXetTuyen', 'sortType'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
-    
-    public function sortStudent($tableName, $sortType, $columnName){
-        /* $request->input('sortType'): Trong TH này sẽ trả về gtri của sort-type trên thanh url */
-        /* Mặc định ban đầu sort-type = asc */
-        if(empty($sortType)){
-            $sortType = 'asc';  
-        }
-        else{
-            if($tableName == 'ds_cho_tiep_nhan'){
-                /* Sắp xếp cột theo tên cuối: 
-                - SUBSTRING_INDEX($columnName, ' ', -1): Lấy phần tên cuối */
-                if($columnName == 'HoTen' || $columnName == 'DiaChi'){
-                    $sortList =  DSChoTiepNhan::orderByRaw("SUBSTRING_INDEX($columnName, ' ', -1) $sortType")->paginate(5);
-                    return $sortList;
-                }
+        
+    // public function sortStudent($tableName, $sortType, $columnName){
+    //     /* $request->input('sortType'): Trong TH này sẽ trả về gtri của sort-type trên thanh url */
+    //     /* Mặc định ban đầu sort-type = asc */
+    //     if(empty($sortType)){
+    //         $sortType = 'asc';  
+    //     }
+    //     else{
+    //         if($tableName == 'ds_cho_tiep_nhan'){
+    //             /* Sắp xếp cột theo tên cuối: 
+    //             - SUBSTRING_INDEX($columnName, ' ', -1): Lấy phần tên cuối */
+    //             if($columnName == 'HoTen' || $columnName == 'DiaChi'){
+    //                 $sortList =  DSChoTiepNhan::orderByRaw("SUBSTRING_INDEX($columnName, ' ', -1) $sortType")->paginate(5);
+    //                 return $sortList;
+    //             }
 
-                /* Sắp xếp cột theo tên đầu: */
-                else{
-                    $sortList =  DSChoTiepNhan::orderBy($columnName, $sortType)->paginate(5);
-                    return $sortList;
-                }
-            }
+    //             /* Sắp xếp cột theo tên đầu: */
+    //             else{
+    //                 $sortList =  DSChoTiepNhan::orderBy($columnName, $sortType)->paginate(5);
+    //                 return $sortList;
+    //             }
+    //         }
             
-            /* Sắp xếp cột theo tên đầu: */
-            else{
-                if($tableName == 'ds_xet_tuyen'){
-                    $sortList =  DSXetTuyen::orderBy($columnName, $sortType)->paginate(5);
-                    return $sortList;
-                }
-                if($tableName == 'ds_trung_tuyen'){
-                    $sortList =  DSTrungTuyen::orderBy($columnName, $sortType)->paginate(5);
-                    return $sortList;
-                }
-            }
-        }
-    }
+    //         /* Sắp xếp cột theo tên đầu: */
+    //         else{
+    //             if($tableName == 'ds_xet_tuyen'){
+    //                 $sortList =  DSXetTuyen::orderBy($columnName, $sortType)->paginate(5);
+    //                 return $sortList;
+    //             }
+    //             if($tableName == 'ds_trung_tuyen'){
+    //                 $sortList =  DSTrungTuyen::orderBy($columnName, $sortType)->paginate(5);
+    //                 return $sortList;
+    //             }
+    //             if($tableName == 'xac_nhan_ho_so'){
+    //                 $sortList =  XacNhanHS::orderBy($columnName, $sortType)->paginate(5);
+    //                 return $sortList;
+    //             }
+    //             if($tableName == 'xac_nhan_xet_tuyen'){
+    //                 $sortList =  XacNhanXT::orderBy($columnName, $sortType)->paginate(5);
+    //                 return $sortList;
+    //             }
 
-    public function searchStudent($tableName, $search){
-        if($tableName == 'ds_cho_tiep_nhan'){
-            $searchList = DSChoTiepNhan::where('MaHoSo', '=', $search)
-                                ->orWhere('HoTen', 'like', '%' . $search . '%')
-                                ->orWhere('DiaChi', 'like', '%' . $search . '%')
-                                ->orWhere('TrinhDoVanHoa', 'like', '%' . $search . '%')
-                                ->paginate(5);
-            return $searchList;
-        }
-        else if($tableName == 'ds_xet_tuyen'){
-            $searchList = DSXetTuyen::where('MaHoSo', '=', $search)
-                                ->paginate(5);
-            return $searchList;
-        }
-        else{
-            $searchList = DSTrungTuyen::where('MaHoSo', '=', $search)
-                                ->paginate(5);
-            return $searchList;
-        }
-    }
+    //         }
+    //     }
+    // }
+
+    // public function searchStudent($tableName, $search){
+    //     if($tableName == 'ds_cho_tiep_nhan'){
+    //         $searchList = DSChoTiepNhan::where('MaHoSo', '=', $search)
+    //                             ->orWhere('HoTen', 'like', '%' . $search . '%')
+    //                             ->orWhere('DiaChi', 'like', '%' . $search . '%')
+    //                             ->orWhere('TrinhDoVanHoa', 'like', '%' . $search . '%')
+    //                             ->paginate(5);
+    //         return $searchList;
+    //     }
+    //     else if($tableName == 'ds_xet_tuyen'){
+    //         $searchList = DSXetTuyen::where('MaHoSo', '=', $search)
+    //                             ->paginate(5);
+    //         return $searchList;
+    //     }
+    //     else{
+    //         $searchList = DSTrungTuyen::where('MaHoSo', '=', $search)
+    //                             ->paginate(5);
+    //         return $searchList;
+    //     }
+    // }
 
     public function totalGPA($request){
         $totalGPA = $request->Toán + $request->Văn + $request->Anh + $request->Lý 
@@ -338,35 +352,8 @@ class ThiSinhController extends Controller
     /* Gửi email đc tiếp nhận hồ sơ */
     public function sendEmailAccepted(string $MaHoSo)
     {
-        $student = DSChoTiepNhan::findOrFail($MaHoSo);
-        $mailData = [
-            'title' => 'Bạn đã được tiếp nhận đăng ký xét tuyển',
-            'name' => $student->HoTen
-        ];
-        Mail::to($student->Email)->send(new EmailAccepted($mailData));
-
-        /* Update trạng thái = 1 -> Đã tiếp nhận */
-        XacNhanHS::create([
-            'MaCanBo' => auth()->user()->id,    
-            'MaHoSo' => $student->MaHoSo,
-            'TrangThai' => 1,
-            'NgayKichHoat' => Carbon::now()->toDateTimeString()
-        ]);
-
-        DSXetTuyen::create([
-            'MaHoSo' => $student->MaHoSo,
-            'PhuongThucXT' => $student->PhuongThucXT,
-            'NV1' => $student->NV1,     
-            'NV2' => $student->NV2, 
-            'KhoiTS' => $student->KhoiTS,
-            'Toán' => $student->Toán,
-            'Văn' => $student->Văn,
-            'Anh' => $student->Anh,
-            'Lý' => $student->Lý,
-            'Hóa' => $student->Hóa,
-            'Sinh' => $student->Sinh,
-            'TongDiem' => $student->TongDiem,
-        ]); 
+        $emailAccepted = new XacNhanHS();
+        $emailAccepted->sendEmailAccepted($MaHoSo);
         
         return redirect()->route('student.DSXetTuyen')->with('thongBaoTiepNhan', 'Gửi email tiếp nhận thành công!');
     }
@@ -374,51 +361,16 @@ class ThiSinhController extends Controller
     /* Gửi email ko đc tiếp nhận hồ sơ */
     public function sendEmailDenied(Request $request)
     {
-        $studentId = $request->input('student_id');
-        $student = DSChoTiepNhan::find($studentId);
-        $mailData = [
-            'title' => 'Bạn không được tiếp nhận đăng ký xét tuyển',
-            'body' => $request->input('messageDenied'),
-            'name' => $student->HoTen
-        ];
-        Mail::to($student->Email)->send(new EmailDenied($mailData));
+        $emailDenied = new XacNhanHS();
+        $emailDenied->sendEmailDenied($request);
 
-        /* Update trạng thái = 0 -> Ko tiếp nhận */
-        XacNhanHS::create([
-            'MaCanBo' => auth()->user()->id,
-            'MaHoSo' => $student->MaHoSo,
-            'TrangThai' => 0,
-            'NgayKichHoat' => Carbon::now()->toDateTimeString(),
-            'LyDo' => $request->input('messageDenied')
-        ]);
-        
-        // $student->delete();
         return redirect()->route('student.DSChoTiepNhan')->with('thongBaoTuChoi', 'Gửi email ko tiếp nhận thành công!');
     }
 
     /* Gửi email trúng tuyển */
     public function sendAmsAcceptedEmail(Request $request){
-        $studentId = $request->input('student_id');
-        $nvTrungTuyen = $request->input('nvTrungTuyen');
-        $student = DSChoTiepNhan::findOrFail($studentId);
-        $mailData = [
-            'title' => 'Chúc mừng bạn đã trúng tuyển!',
-            'name' => $student->HoTen
-        ];
-        Mail::to($student->Email)->send(new AdmissionAcceptedEmail($mailData));
-
-        DSTrungTuyen::create([
-            'MaHoSo' => $studentId,
-            'MaNganh' => $nvTrungTuyen,     
-            // 'TenNganh' => $student->TenNganh,
-        ]);
-
-        XacNhanXT::create([
-            'MaCanBo' => auth()->user()->id,    
-            'MaHoSo' => $student->MaHoSo,
-            'TrangThai' => 1,
-            'NgayKichHoat' => Carbon::now()->toDateTimeString()
-        ]);
+        $emailAmsAccepted = new XacNhanXT();
+        $emailAmsAccepted->sendAmsAcceptedEmail($request);
         
         return redirect()->route('student.DSTrungTuyen')->with('thongBaoTiepNhan', 'Gửi email tiếp nhận thành công!');
     }
@@ -427,23 +379,9 @@ class ThiSinhController extends Controller
     /* Gửi email ko trúng tuyển */
     public function sendAmsDeniedEmail(Request $request)
     {
-        $studentId = $request->input('student_id');
-        $student = DSChoTiepNhan::find($studentId);
-        $mailData = [
-            'title' => 'Bạn không trúng tuyển!',
-            'body' => $request->input('messageDenied'),
-            'name' => $student->HoTen
-        ];
-        Mail::to($student->Email)->send(new AdmissionDeniedEmail($mailData));
-
-        XacNhanXT::create([
-            'MaCanBo' => auth()->user()->id,    
-            'MaHoSo' => $student->MaHoSo,
-            'TrangThai' => 0,
-            'NgayKichHoat' => Carbon::now()->toDateTimeString(),
-            'LyDo' => $request->input('messageDenied')
-        ]);
-
+        $emailAmsDenied = new XacNhanXT();
+        $emailAmsDenied->sendAmsDeniedEmail($request);
+        
         return redirect()->route('student.DSXetTuyen')->with('thongBaoTuChoi', 'Gửi email ko tiếp nhận thành công!');
     }
 

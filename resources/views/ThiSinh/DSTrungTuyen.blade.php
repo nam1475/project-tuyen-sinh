@@ -56,7 +56,7 @@
                 {{ Session::get('thongbao') }}
             </div>
         @endif --}}
-        <table class="table table-hover table-responsive">
+        <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
                     <th class="align-middle text-center"><a href="?sort-by=MaHoSo&sort-type={{ $sortType }}" class="text-decoration-none">Mã hồ sơ</a></th>
@@ -69,8 +69,8 @@
                 @if($DSTrungTuyen->count() > 0)
                     @foreach($DSTrungTuyen as $tt)
                         <tr>
-                            <td class="align-middle">{{ $tt->MaHoSo }}</td>
-                            <td class="align-middle">{{ $tt->MaNganh }}</td>
+                            <td class="align-middle text-center">{{ $tt->MaHoSo }}</td>
+                            <td class="align-middle text-center">{{ $tt->MaNganh }}</td>
                             {{-- <td class="align-middle">{{ $tt->TenNganh }}</td>   --}}
                             {{-- <td class="align-middle">
                                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -83,7 +83,6 @@
                                     </form>
                                 </div>
                             </td> --}}
-                            
                         </tr>
                     @endforeach
                 @else

@@ -15,8 +15,10 @@ return new class extends Migration
             $table->integer('MaCanBo');
             $table->integer('MaHoSo')->primary();
             $table->integer('TrangThai')->nullable();
-            $table->dateTime('NgayKichHoat')->nullable();
+            // $table->dateTime('NgayKichHoat')->nullable();
+            // $table->timestamp('NgayKichHoat')->useCurrent();
             $table->string('LyDo')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -27,11 +27,11 @@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
-                <th class="align-middle text-center">Mã cán bộ</th>
-                <th class="align-middle text-center">Mã hồ sơ</th>
-                <th class="align-middle text-center">Trạng thái</th>
-                <th class="align-middle text-center">Ngày kích hoạt</th> 
-                <th class="align-middle text-center">Lý do</th> 
+                <th class="align-middle text-center"><a href="?sort-by=MaCanBo&sort-type={{ $sortType }}" class="text-decoration-none">Mã cán bộ</a></th>
+                <th class="align-middle text-center"><a href="?sort-by=MaHoSo&sort-type={{ $sortType }}" class="text-decoration-none">Mã hồ sơ</a></th>
+                <th class="align-middle text-center"><a href="?sort-by=TrangThai&sort-type={{ $sortType }}" class="text-decoration-none">Trạng thái</a></th>
+                <th class="align-middle text-center"><a href="?sort-by=NgayKichHoat&sort-type={{ $sortType }}" class="text-decoration-none">Ngày kích hoạt</a></th> 
+                <th class="align-middle text-center"><a href="?sort-by=LyDo&sort-type={{ $sortType }}" class="text-decoration-none">Lý do</a></th> 
                 {{-- <th class="align-middle text-center">Thao tác</th> --}}
             </tr>
         </thead>

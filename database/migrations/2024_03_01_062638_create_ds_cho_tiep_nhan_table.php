@@ -37,6 +37,9 @@ return new class extends Migration
             $table->float('Hóa')->nullable();
             $table->float('Sinh')->nullable();
             $table->float('TongDiem')->nullable(); // Tạo function riêng
+            // $table->timestamp('NgayTao')->useCurrent()->nullable();
+            // $table->timestamp('NgaySua')->useCurrentOnUpdate()->nullable();
+            $table->timestamps();
         });
     }
 
